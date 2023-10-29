@@ -169,5 +169,5 @@ const cars = [
 		doors: 4,
 		color: 'blue',
 		transmission: 'automatic',
-	},
+	}
 ];
