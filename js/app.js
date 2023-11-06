@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 brand.addEventListener('change', event => {
     dataSearch.brand = event.target.value;
+
+    filterCar();
 });
 
 year.addEventListener('change', event => {
@@ -73,4 +75,17 @@ function fillSelect() {
         option.textContent = i;
         year.appendChild(option);
     }
+}
+
+function filterCar() {
+    const result = cars.filter(filterBrand);
+}
+
+function filterBrand(car) {
+    const { brand } = dataSearch;
+
+    if (brand) {
+        return car.brand === brand;
+    }
+    return car;
 }
