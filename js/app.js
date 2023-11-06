@@ -1,12 +1,56 @@
-const result = document.querySelector('#result');
 const year = document.querySelector('#year');
+const brand = document.querySelector('#brand');
+const minimumPrice = document.querySelector('#minimum');
+const maximumPrice = document.querySelector('#maximum');
+const doors = document.querySelector('#doors');
+const transmission = document.querySelector('#transmission');
+const color = document.querySelector('#color');
+const result = document.querySelector('#result');
 
 const maxDate = new Date().getFullYear();
 const minDate = maxDate - 10;
 
+const dataSearch = {
+    brand: '',
+    year: '',
+    minimumPrice: '',
+    maximumPrice: '',
+    doors: '',
+    transmission: '',
+    color: ''
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     showCars();
     fillSelect();
+});
+
+brand.addEventListener('change', event => {
+    dataSearch.brand = event.target.value;
+});
+
+year.addEventListener('change', event => {
+    dataSearch.year = event.target.value;
+});
+
+minimumPrice.addEventListener('change', event => {
+    dataSearch.minimumPrice = event.target.value;
+});
+
+maximumPrice.addEventListener('change', event => {
+    dataSearch.maximumPrice = event.target.value;
+});
+
+doors.addEventListener('change', event => {
+    dataSearch.doors = event.target.value;
+});
+
+transmission.addEventListener('change', event => {
+    dataSearch.transmission = event.target.value;
+});
+
+color.addEventListener('change', event => {
+    dataSearch.color = event.target.value;
 });
 
 function showCars() {
