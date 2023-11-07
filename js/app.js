@@ -50,15 +50,22 @@ maximumPrice.addEventListener('change', event => {
 });
 
 doors.addEventListener('change', event => {
-	dataSearch.doors = event.target.value;
+	dataSearch.doors = parseInt(event.target.value);
+
+	filterCar();
 });
 
 transmission.addEventListener('change', event => {
 	dataSearch.transmission = event.target.value;
+
+	filterCar();
 });
 
 color.addEventListener('change', event => {
-	dataSearch.color = event.target.value;
+    dataSearch.color = event.target.value;
+    console.log(dataSearch);
+
+	filterCar();
 });
 
 function showCars(cars) {
@@ -96,7 +103,10 @@ function filterCar() {
 		.filter(filterBrand)
 		.filter(filterYear)
 		.filter(filterMinimumPrice)
-		.filter(filterMaximumPrice);
+		.filter(filterMaximumPrice)
+		.filter(filterDoors)
+		.filter(filterTransmission)
+		.filter(filterColor);
 
 	showCars(result);
 }
@@ -133,6 +143,33 @@ function filterMaximumPrice(car) {
 
 	if (maximumPrice) {
 		return car.price <= maximumPrice;
+	}
+	return car;
+}
+
+function filterDoors(car) {
+	const { doors } = dataSearch;
+
+	if (doors) {
+		return car.doors === doors;
+	}
+	return car;
+}
+
+function filterTransmission(car) {
+	const { transmission } = dataSearch;
+
+	if (transmission) {
+		return car.transmission === transmission;
+	}
+	return car;
+}
+
+function filterColor(car) {
+	const { color } = dataSearch;
+
+	if (color) {
+		return car.color === color;
 	}
 	return car;
 }
