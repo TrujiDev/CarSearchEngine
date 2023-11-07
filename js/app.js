@@ -108,7 +108,20 @@ function filterCar() {
 		.filter(filterTransmission)
 		.filter(filterColor);
 
-	showCars(result);
+    if (result.length) {
+        showCars(result);
+    } else {
+        noResult();
+    }
+}
+
+function noResult() {
+    cleanHTML();
+
+    const noResult = document.createElement('DIV');
+    noResult.classList.add('alert', 'error');
+    noResult.textContent = 'No results, try with other search terms';
+    result.appendChild(noResult);
 }
 
 function filterBrand(car) {
