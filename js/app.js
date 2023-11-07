@@ -21,7 +21,7 @@ const dataSearch = {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    showCars();
+    showCars(cars);
     fillSelect();
 });
 
@@ -57,7 +57,9 @@ color.addEventListener('change', event => {
     dataSearch.color = event.target.value;
 });
 
-function showCars() {
+function showCars(cars) {
+    cleanHTML();
+
     cars.forEach(car => {
         const { brand, model, year, price, doors, color, transmission } = car;
         const carHTML = document.createElement('P');
@@ -68,6 +70,12 @@ function showCars() {
 
         result.appendChild(carHTML);
     });    
+}
+
+function cleanHTML() {
+    while (result.firstChild) {
+        result.removeChild(result.firstChild);
+    }
 }
 
 function fillSelect() {
@@ -81,7 +89,9 @@ function fillSelect() {
 
 function filterCar() {
     const result = cars.filter(filterBrand).filter(filterYear);
-    console.log(result);
+    // console.log(result);
+
+    showCars(result);
 }
 
 function filterBrand(car) {
