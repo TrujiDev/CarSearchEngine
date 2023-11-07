@@ -11,103 +11,128 @@ const maxDate = new Date().getFullYear();
 const minDate = maxDate - 10;
 
 const dataSearch = {
-    brand: '',
-    year: '',
-    minimumPrice: '',
-    maximumPrice: '',
-    doors: '',
-    transmission: '',
-    color: ''
-}
+	brand: '',
+	year: '',
+	minimumPrice: '',
+	maximumPrice: '',
+	doors: '',
+	transmission: '',
+	color: '',
+};
 
 document.addEventListener('DOMContentLoaded', () => {
-    showCars(cars);
-    fillSelect();
+	showCars(cars);
+	fillSelect();
 });
 
 brand.addEventListener('change', event => {
-    dataSearch.brand = event.target.value;
+	dataSearch.brand = event.target.value;
 
-    filterCar();
+	filterCar();
 });
 
 year.addEventListener('change', event => {
-    dataSearch.year = parseInt(event.target.value);
+	dataSearch.year = parseInt(event.target.value);
 
-    filterCar();
+	filterCar();
 });
 
 minimumPrice.addEventListener('change', event => {
-    dataSearch.minimumPrice = event.target.value;
+	dataSearch.minimumPrice = event.target.value;
+
+	filterCar();
 });
 
 maximumPrice.addEventListener('change', event => {
-    dataSearch.maximumPrice = event.target.value;
+	dataSearch.maximumPrice = event.target.value;
+
+	filterCar();
 });
 
 doors.addEventListener('change', event => {
-    dataSearch.doors = event.target.value;
+	dataSearch.doors = event.target.value;
 });
 
 transmission.addEventListener('change', event => {
-    dataSearch.transmission = event.target.value;
+	dataSearch.transmission = event.target.value;
 });
 
 color.addEventListener('change', event => {
-    dataSearch.color = event.target.value;
+	dataSearch.color = event.target.value;
 });
 
 function showCars(cars) {
-    cleanHTML();
+	cleanHTML();
 
-    cars.forEach(car => {
-        const { brand, model, year, price, doors, color, transmission } = car;
-        const carHTML = document.createElement('P');
+	cars.forEach(car => {
+		const { brand, model, year, price, doors, color, transmission } = car;
+		const carHTML = document.createElement('P');
 
-        carHTML.textContent = `
+		carHTML.textContent = `
             ${brand} - ${model} - ${year} - $${price} - ${doors} Doors - Color: ${color} - Transmission: ${transmission} 
         `;
 
-        result.appendChild(carHTML);
-    });    
+		result.appendChild(carHTML);
+	});
 }
 
 function cleanHTML() {
-    while (result.firstChild) {
-        result.removeChild(result.firstChild);
-    }
+	while (result.firstChild) {
+		result.removeChild(result.firstChild);
+	}
 }
 
 function fillSelect() {
-    for (let i = maxDate; i >= minDate; i--) {
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = i;
-        year.appendChild(option);
-    }
+	for (let i = maxDate; i >= minDate; i--) {
+		const option = document.createElement('option');
+		option.value = i;
+		option.textContent = i;
+		year.appendChild(option);
+	}
 }
 
 function filterCar() {
-    const result = cars.filter(filterBrand).filter(filterYear);
-    // console.log(result);
+	const result = cars
+		.filter(filterBrand)
+		.filter(filterYear)
+		.filter(filterMinimumPrice)
+		.filter(filterMaximumPrice);
 
-    showCars(result);
+	showCars(result);
 }
 
 function filterBrand(car) {
-    const { brand } = dataSearch;
+	const { brand } = dataSearch;
 
-    if (brand) {
-        return car.brand === brand;
-    }
-    return car;
+	if (brand) {
+		return car.brand === brand;
+	}
+	return car;
 }
 
 function filterYear(car) {
-    const { year } = dataSearch;
+	const { year } = dataSearch;
 
-    if (year) {
-        return car.year === year;
-    }
-    return car;
+	if (year) {
+		return car.year === year;
+	}
+	return car;
+}
+
+function filterMinimumPrice(car) {
+	const { minimumPrice } = dataSearch;
+
+	if (minimumPrice) {
+		return car.price >= minimumPrice;
+	}
+	return car;
+}
+
+function filterMaximumPrice(car) {
+	const { maximumPrice } = dataSearch;
+
+	if (maximumPrice) {
+		return car.price <= maximumPrice;
+	}
+	return car;
 }
