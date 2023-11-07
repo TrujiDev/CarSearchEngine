@@ -32,7 +32,9 @@ brand.addEventListener('change', event => {
 });
 
 year.addEventListener('change', event => {
-    dataSearch.year = event.target.value;
+    dataSearch.year = parseInt(event.target.value);
+
+    filterCar();
 });
 
 minimumPrice.addEventListener('change', event => {
@@ -78,7 +80,8 @@ function fillSelect() {
 }
 
 function filterCar() {
-    const result = cars.filter(filterBrand);
+    const result = cars.filter(filterBrand).filter(filterYear);
+    console.log(result);
 }
 
 function filterBrand(car) {
@@ -86,6 +89,15 @@ function filterBrand(car) {
 
     if (brand) {
         return car.brand === brand;
+    }
+    return car;
+}
+
+function filterYear(car) {
+    const { year } = dataSearch;
+
+    if (year) {
+        return car.year === year;
     }
     return car;
 }
