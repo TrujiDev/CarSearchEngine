@@ -41,5 +41,3 @@ If you would like to contribute to this project or suggest improvements, feel fr
 ## Contact
 
 If you have any questions or need further assistance, you can reach out to [TrujiDev] at [eetgrisales@gmail.com].
-
-Happy car searching!
