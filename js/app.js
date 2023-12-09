@@ -1,4 +1,3 @@
-// Selecting HTML elements
 const year = document.querySelector('#year');
 const brand = document.querySelector('#brand');
 const minimumPrice = document.querySelector('#minimum');
@@ -8,11 +7,20 @@ const transmission = document.querySelector('#transmission');
 const color = document.querySelector('#color');
 const result = document.querySelector('#result');
 
-// Setting date range for the year select
 const maxDate = new Date().getFullYear();
 const minDate = maxDate - 10;
 
-// Object to store search criteria
+/**
+ * Object representing the search criteria for car search.
+ * @type {Object}
+ * @property {string} brand - The brand of the car.
+ * @property {string} year - The year of the car.
+ * @property {string} minimumPrice - The minimum price of the car.
+ * @property {string} maximumPrice - The maximum price of the car.
+ * @property {string} doors - The number of doors of the car.
+ * @property {string} transmission - The transmission type of the car.
+ * @property {string} color - The color of the car.
+ */
 const dataSearch = {
 	brand: '',
 	year: '',
@@ -23,13 +31,11 @@ const dataSearch = {
 	color: '',
 };
 
-// Event listener for DOMContentLoaded to initialize the page
 document.addEventListener('DOMContentLoaded', () => {
 	showCars(cars);
 	fillSelect();
 });
 
-// Event listeners for each filter option
 brand.addEventListener('change', event => {
 	dataSearch.brand = event.target.value;
 	filterCar();
@@ -66,7 +72,12 @@ color.addEventListener('change', event => {
 	filterCar();
 });
 
-// Function to display cars in the result section
+/**
+ * Displays a list of cars on the webpage.
+ * 
+ * @param {Array} cars - An array of car objects.
+ * @returns {void}
+ */
 function showCars(cars) {
 	cleanHTML();
 
@@ -82,14 +93,18 @@ function showCars(cars) {
 	});
 }
 
-// Function to remove all child elements from the result section
+/**
+ * Removes all child elements from the 'result' element.
+ */
 function cleanHTML() {
 	while (result.firstChild) {
 		result.removeChild(result.firstChild);
 	}
 }
 
-// Function to fill the year select with options
+/**
+ * Fills the select element with options for selecting a year.
+ */
 function fillSelect() {
 	for (let i = maxDate; i >= minDate; i--) {
 		const option = document.createElement('option');
@@ -99,29 +114,29 @@ function fillSelect() {
 	}
 }
 
-// Function to apply filters and display results
+/**
+ * Filters the cars based on various criteria and displays the filtered results.
+ */
 function filterCar() {
-    // Apply successive filters to the list of cars based on search criteria
+	const result = cars
+		.filter(filterBrand)
+		.filter(filterYear)
+		.filter(filterMinimumPrice)
+		.filter(filterMaximumPrice)
+		.filter(filterDoors)
+		.filter(filterTransmission)
+		.filter(filterColor);
 
-    const result = cars
-        .filter(filterBrand)           // Filter by brand
-        .filter(filterYear)            // Filter by year
-        .filter(filterMinimumPrice)    // Filter by minimum price
-        .filter(filterMaximumPrice)    // Filter by maximum price
-        .filter(filterDoors)           // Filter by number of doors
-        .filter(filterTransmission)    // Filter by transmission type
-        .filter(filterColor);          // Filter by color
-
-    // If there are filtered results, display them; otherwise, show a no-result message
-    if (result.length) {
-        showCars(result);  // Display filtered cars
-    } else {
-        noResult();        // Display a message indicating no results
-    }
+	if (result.length) {
+		showCars(result);
+	} else {
+		noResult();
+	}
 }
 
-
-// Function to display a message when there are no results
+/**
+ * Displays a message indicating no search results.
+ */
 function noResult() {
 	cleanHTML();
 
@@ -131,79 +146,100 @@ function noResult() {
 	result.appendChild(noResult);
 }
 
-// Functions to filter cars based on search criteria
-
-// Function to filter by brand
+/**
+ * Filters the car based on the brand.
+ * @param {Object} car - The car object to be filtered.
+ * @returns {Object} - The filtered car object.
+ */
 function filterBrand(car) {
-    const { brand } = dataSearch;
+	const { brand } = dataSearch;
 
-    if (brand) {
-        return car.brand === brand;
-    }
-    return car;
+	if (brand) {
+		return car.brand === brand;
+	}
+	return car;
 }
 
-// Function to filter by year
+/**
+ * Filters the car based on the specified year.
+ * @param {Object} car - The car object to be filtered.
+ * @returns {Object} - The filtered car object.
+ */
 function filterYear(car) {
-    const { year } = dataSearch;
+	const { year } = dataSearch;
 
-    if (year) {
-        return car.year === year;
-    }
-    return car;
+	if (year) {
+		return car.year === year;
+	}
+	return car;
 }
 
-// Function to filter by minimum price
+/**
+ * Filters cars based on the minimum price.
+ * @param {Object} car - The car object to be filtered.
+ * @returns {boolean|Object} - Returns true if the car's price is greater than or equal to the minimum price, otherwise returns the car object itself.
+ */
 function filterMinimumPrice(car) {
-    const { minimumPrice } = dataSearch;
+	const { minimumPrice } = dataSearch;
 
-    // If a minimum price is defined,
-    // compare it with the price of the car
-    if (minimumPrice) {
-        return car.price >= minimumPrice;
-    }
-    return car;
+	if (minimumPrice) {
+		return car.price >= minimumPrice;
+	}
+	return car;
 }
 
-// Function to filter by maximum price
+/**
+ * Filters the cars based on the maximum price.
+ * @param {Object} car - The car object to be filtered.
+ * @returns {boolean|Object} - Returns true if the car price is less than or equal to the maximum price, otherwise returns the car object itself.
+ */
 function filterMaximumPrice(car) {
-    const { maximumPrice } = dataSearch;
+	const { maximumPrice } = dataSearch;
 
-    // If a maximum price is defined,
-    // compare it with the price of the car
-    if (maximumPrice) {
-        return car.price <= maximumPrice;
-    }
-    return car;
+	if (maximumPrice) {
+		return car.price <= maximumPrice;
+	}
+	return car;
 }
 
-// Function to filter by number of doors
+/**
+ * Filters cars based on the number of doors.
+ * @param {Object} car - The car object to be filtered.
+ * @returns {boolean|Object} - Returns true if the car has the specified number of doors, otherwise returns the car object itself.
+ */
 function filterDoors(car) {
-    const { doors } = dataSearch;
+	const { doors } = dataSearch;
 
-    if (doors) {
-        return car.doors === doors;
-    }
-    return car;
+	if (doors) {
+		return car.doors === doors;
+	}
+	return car;
 }
 
-// Function to filter by transmission type
+/**
+ * Filters the car based on the transmission type.
+ * @param {Object} car - The car object to be filtered.
+ * @returns {Object} - The filtered car object.
+ */
 function filterTransmission(car) {
-    const { transmission } = dataSearch;
+	const { transmission } = dataSearch;
 
-    if (transmission) {
-        return car.transmission === transmission;
-    }
-    return car;
+	if (transmission) {
+		return car.transmission === transmission;
+	}
+	return car;
 }
 
-// Function to filter by color
+/**
+ * Filters the car based on the specified color.
+ * @param {object} car - The car object to be filtered.
+ * @returns {boolean|object} - Returns the filtered car object if the color matches, otherwise returns the original car object.
+ */
 function filterColor(car) {
-    const { color } = dataSearch;
+	const { color } = dataSearch;
 
-    if (color) {
-        return car.color === color;
-    }
-    return car;
+	if (color) {
+		return car.color === color;
+	}
+	return car;
 }
-
